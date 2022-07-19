@@ -24,7 +24,7 @@ import com.marciogomes.cursomc.services.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
-public class ClienteResouce {
+public class ClienteResource {
 
 	@Autowired
 	private ClienteService service;
