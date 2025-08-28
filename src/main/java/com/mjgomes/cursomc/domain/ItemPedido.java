@@ -1,5 +1,6 @@
 package com.mjgomes.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
@@ -11,6 +12,7 @@ public class ItemPedido  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // EmbeddedId indicates that this attribute is a compound primary key.
+    @JsonIgnore
     @EmbeddedId
     // Composite primary key class for ItemPedido entity
     private  ItemPediodPK id = new ItemPediodPK();
@@ -29,6 +31,7 @@ public class ItemPedido  implements Serializable {
         this.quantidade = quantidade;
     }
 
+    @JsonIgnore
     // For convenience, we provide direct access to Pedido through ItemPedido.
     public Pedido getPedido() {
         return id.getPedido();

@@ -1,5 +1,7 @@
 package com.mjgomes.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,13 +20,16 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instante;
 
     // Associações
     // Maped OneToOne
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -32,6 +37,7 @@ public class Pedido implements Serializable {
     @ManyToOne
     @JoinColumn(name = "endereco_de_entrega_id")
     private Endereco enderecoDeEntrega;
+
 
     @OneToMany(mappedBy = "id.pedido")
     // Set to avoid duplicate items in the order.

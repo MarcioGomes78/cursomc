@@ -1,5 +1,6 @@
 package com.mjgomes.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mjgomes.cursomc.enums.EstadoPagamento;
 import jakarta.persistence.*;
 
@@ -19,6 +20,7 @@ public abstract class Pagamento implements Serializable {
 
     // Associações
     // Association
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId

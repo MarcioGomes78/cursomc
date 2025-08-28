@@ -1,6 +1,7 @@
 package com.mjgomes.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -27,6 +28,7 @@ public class Produto implements Serializable {
     @JsonBackReference
     private List<Categoria> categorias = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.produto")
     // Set to avoid duplicate items in the order.
     private Set<ItemPedido> itens = new HashSet<>();
@@ -45,6 +47,7 @@ public class Produto implements Serializable {
     // Podemos criar um método  getpedidos que retorne uma lista de Pedidos associados a este itens .
     // Retorna uma lista de pedidos associados a este produto.
     // Returns a list of orders associated with this product.
+    @JsonIgnore
     public List<Pedido> getPedidos() {
         List<Pedido> lista = new ArrayList<>();
         // Percorre os ItemPedido associados pedidos (x), na minha lista de itens, para cada item de pedido (x) adiciona à lista.
