@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Produto implements Serializable {
@@ -29,6 +27,10 @@ public class Produto implements Serializable {
     @JsonBackReference
     private List<Categoria> categorias = new ArrayList<>();
 
+    @OneToMany(mappedBy = "id.produto")
+    // Set to avoid duplicate items in the order.
+    private Set<ItemPedido> itens = new HashSet<>();
+
     public Produto() {
     }
 
@@ -37,6 +39,19 @@ public class Produto implements Serializable {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    // The product knows the orders associated with it.
+    // Podemos criar um método  getpedidos que retorne uma lista de Pedidos associados a este itens .
+    // Retorna uma lista de pedidos associados a este produto.
+    // Returns a list of orders associated with this product.
+    public List<Pedido> getPedidos() {
+        List<Pedido> lista = new ArrayList<>();
+        // Percorre os ItemPedido associados pedidos (x), na minha lista de itens, para cada item de pedido (x) adiciona à lista.
+        for (ItemPedido x : itens) {
+            lista.add(x.getPedido());
+        }
+        return lista;
     }
 
     public Integer getId() {
@@ -69,6 +84,14 @@ public class Produto implements Serializable {
 
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
+    }
+
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
     }
 
     @Override
