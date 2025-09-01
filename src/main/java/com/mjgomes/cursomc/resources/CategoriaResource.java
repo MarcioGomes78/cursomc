@@ -3,6 +3,7 @@ package com.mjgomes.cursomc.resources;
 import com.mjgomes.cursomc.domain.Categoria;
 import com.mjgomes.cursomc.dto.CategoriaDTO;
 import com.mjgomes.cursomc.services.CategoriaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,16 @@ public class CategoriaResource {
     // For this, we use the insert () method of the service and return a responseentity
     // com o status 201 (Created) e a URI do novo recurso no cabeçalho Location.
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
+        Categoria obj = service.fromDTO(objDto);
         obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objDto.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
+        Categoria obj = service.fromDTO(objDto);
         obj.setId(id);
         obj = service.update(obj);
         // Content empty
