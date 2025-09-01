@@ -1,13 +1,10 @@
 package com.mjgomes.cursomc.services;
 
-import com.mjgomes.cursomc.domain.Categoria;
 import com.mjgomes.cursomc.domain.Cliente;
-import com.mjgomes.cursomc.dto.CategoriaDTO;
 import com.mjgomes.cursomc.dto.ClienteDTO;
 import com.mjgomes.cursomc.repositories.ClienteRepository;
 import com.mjgomes.cursomc.services.exceptions.DataIntegrityException;
 import com.mjgomes.cursomc.services.exceptions.ObjectNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
