@@ -41,9 +41,17 @@ public class ItemPedido  implements Serializable {
         return id.getPedido();
     }
 
+    public void setPedido(Pedido pedido) {
+        id.setPedido(pedido);
+    }
+
     // For convenience, we provide direct access to Produto through ItemPedido.
     public Produto getProduto() {
         return id.getProduto();
+    }
+
+    public void setProduto(Produto produto) {
+        id.setProduto(produto);
     }
 
     public ItemPediodPK getId() {
@@ -54,12 +62,12 @@ public class ItemPedido  implements Serializable {
         this.id = id;
     }
 
-    public Double getDeasconto() {
+    public Double getDesconto() {
         return desconto;
     }
 
-    public void setDeasconto(Double deasconto) {
-        this.desconto = deasconto;
+    public void setDesconto(Double desconto) {
+        this.desconto = desconto;
     }
 
     public Double getPreco() {
