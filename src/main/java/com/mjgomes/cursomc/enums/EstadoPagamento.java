@@ -7,18 +7,18 @@ public enum EstadoPagamento {
     CANCELADO(3, "Cancelado");
 
     private Integer cod;
-    private String descericao;
+    private String descricao;
 
     private EstadoPagamento(Integer cod, String descricao) {
         this.cod = cod;
-        this.descericao = descricao;
+        this.descricao = descricao;
     }
 
     public Integer getCod() {
         return cod;
     }
-    public String getDescericao() {
-        return descericao;
+    public String getDescricao() {
+        return descricao;
     }
 
     public static EstadoPagamento toEnum(Integer cod) {
