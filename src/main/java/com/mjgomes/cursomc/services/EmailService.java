@@ -1,6 +1,7 @@
 package com.mjgomes.cursomc.services;
 
 import com.mjgomes.cursomc.domain.Pedido;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 
 public interface EmailService {
@@ -9,5 +10,7 @@ public interface EmailService {
 
     void sendEmail(SimpleMailMessage msg);
 
+    void sendOrderConfirmationHtmlEmail(Pedido obj);
 
+    void sendHtmlEmail(MimeMessage msg);
 }
