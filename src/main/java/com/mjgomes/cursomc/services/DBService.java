@@ -2,6 +2,7 @@ package com.mjgomes.cursomc.services;
 
 import com.mjgomes.cursomc.domain.*;
 import com.mjgomes.cursomc.enums.EstadoPagamento;
+import com.mjgomes.cursomc.enums.Perfil;
 import com.mjgomes.cursomc.enums.TipoCliente;
 import com.mjgomes.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,16 +106,25 @@ public class DBService {
 
         // Criando o cliente e os endereços
         Cliente cli1 = new Cliente(null, "Maria Silva", "mjgomes1978@gmail.com", "36378912377", TipoCliente.PESSOAFISICAS, pe.encode("123"));
-        cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+        cli1.getTelefones().addAll(Arrays.asList("41982736332", "91983839375"));
 
-        Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
-        Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+        // Adicionando perfil de admin ao cliente
+        Cliente cli2 = new Cliente(null, "Ana Costa", "mjgomes1978@proton.me", "96192441170", TipoCliente.PESSOAFISICAS, pe.encode("123"));
+        cli1.getTelefones().addAll(Arrays.asList("41987654599", "91983839393"));
+
+        cli2.addPerfil(Perfil.ADMIN);
+
+        Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "82208349", cli1, c1);
+        Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "81770125", cli1, c2);
+        Endereco e3 = new Endereco(null, "Avenida Floriano", "78", null, "Centro", "81770816", cli2, c2);
+
 
         cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+        cli2.getEnderecos().addAll(Arrays.asList(e3));
 
         // Salvando o cliente e os endereços no banco de dados
-        clienteRepository.saveAll(Arrays.asList(cli1));
-        enderecoRepository.saveAll(Arrays.asList(e1, e2));
+        clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+        enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
         // Criando os pedidos e pagamentos
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
