@@ -27,7 +27,7 @@ public class JWTUtil {
     private long expiration;
 
     // Gera um token assinado (HS256+) contendo o username como subject e a data de expiração.
-    public String generetaToken(String username){
+    public String generateToken(String username){
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
                 .subject(username)
