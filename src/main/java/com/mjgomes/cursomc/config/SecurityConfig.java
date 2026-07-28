@@ -50,9 +50,10 @@ public class SecurityConfig{
     // Endpoints liberados apenas para leitura (GET); demais verbos exigem autenticação.
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**",
-            "/clientes/**"
+            "/categorias/**"
     };
+
+    private static final String PUBLIC_MATCHERS_POST = null;
 
     public SecurityConfig(Environment env) {
         this.env = env;
@@ -73,6 +74,7 @@ public class SecurityConfig{
 
         http.cors(withDefaults());
         http.authorizeHttpRequests(authz -> authz
+                .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                 .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .requestMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated()
