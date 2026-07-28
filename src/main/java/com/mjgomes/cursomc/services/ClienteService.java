@@ -1,15 +1,8 @@
 package com.mjgomes.cursomc.services;
 
-import com.mjgomes.cursomc.domain.Cidade;
-import com.mjgomes.cursomc.domain.Cliente;
-import com.mjgomes.cursomc.domain.Endereco;
-import com.mjgomes.cursomc.dto.ClienteDTO;
-import com.mjgomes.cursomc.dto.ClienteNewDTO;
-import com.mjgomes.cursomc.enums.TipoCliente;
-import com.mjgomes.cursomc.repositories.ClienteRepository;
-import com.mjgomes.cursomc.repositories.EnderecoRepository;
-import com.mjgomes.cursomc.services.exceptions.DataIntegrityException;
-import com.mjgomes.cursomc.services.exceptions.ObjectNotFoundException;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,8 +11,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.mjgomes.cursomc.domain.Cidade;
+import com.mjgomes.cursomc.domain.Cliente;
+import com.mjgomes.cursomc.domain.Endereco;
+import com.mjgomes.cursomc.dto.ClienteDTO;
+import com.mjgomes.cursomc.dto.ClienteNewDTO;
+import com.mjgomes.cursomc.enums.Perfil;
+import com.mjgomes.cursomc.enums.TipoCliente;
+import com.mjgomes.cursomc.repositories.ClienteRepository;
+import com.mjgomes.cursomc.repositories.EnderecoRepository;
+import com.mjgomes.cursomc.security.UserSS;
+import com.mjgomes.cursomc.services.exceptions.AuthorizationException;
+import com.mjgomes.cursomc.services.exceptions.DataIntegrityException;
+import com.mjgomes.cursomc.services.exceptions.ObjectNotFoundException;
 
 // Regras de negócio de Cliente: CRUD, conversão DTO <-> entidade e criptografia de senha no cadastro.
 @Service
@@ -35,6 +39,12 @@ public class ClienteService {
     private EnderecoRepository enderecoRepository;
 
     public Cliente find(Integer id) {
+
+        // Só pode ver o próprio cadastro ou, se for ADMIN, o de qualquer cliente; caso contrário, 403.
+        UserSS user = UserService.authenticated();
+        if (user == null || !user.getId().equals(id) || !user.hasRole(Perfil.ADMIN)) {
+            throw new AuthorizationException("Acesso negado");
+        }
 
         Optional<Cliente> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(

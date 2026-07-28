@@ -71,4 +71,9 @@ public class UserSS implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    // Verifica se o usuário autenticado possui o perfil informado, usado nas checagens de autorização dos services.
+    public boolean hasRole(Perfil perfil) {
+        return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+    }
 }

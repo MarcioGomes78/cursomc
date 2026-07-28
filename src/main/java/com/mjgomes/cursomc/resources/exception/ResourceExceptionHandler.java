@@ -1,8 +1,5 @@
 package com.mjgomes.cursomc.resources.exception;
 
-import com.mjgomes.cursomc.services.exceptions.DataIntegrityException;
-import com.mjgomes.cursomc.services.exceptions.ObjectNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -10,13 +7,19 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.mjgomes.cursomc.services.exceptions.AuthorizationException;
+import com.mjgomes.cursomc.services.exceptions.DataIntegrityException;
+import com.mjgomes.cursomc.services.exceptions.ObjectNotFoundException;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 // Traduz as exceções internas dos services em respostas HTTP com corpo padronizado (StandardError/ValidationError),
 // centralizando esse mapeamento em vez de repeti-lo em cada Resource.
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
     // Entidade não encontrada (ex: find por id inexistente) -> 404.
-    @ExceptionHandler
+    @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 
         StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
@@ -40,5 +43,13 @@ public class ResourceExceptionHandler {
             err.addError(x.getField(), x.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    // Acesso negado (usuário autenticado sem permissão/perfil necessário) -> 403.
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return  ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 }
