@@ -53,7 +53,10 @@ public class SecurityConfig{
             "/categorias/**"
     };
 
-    private static final String PUBLIC_MATCHERS_POST = null;
+    // Endpoints liberados apenas para escrita (POST), como o cadastro de clientes.
+    private static final String[] PUBLIC_MATCHERS_POST = {
+            "/clientes"
+    };
 
     public SecurityConfig(Environment env) {
         this.env = env;
