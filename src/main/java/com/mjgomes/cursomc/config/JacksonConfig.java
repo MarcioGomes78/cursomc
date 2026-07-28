@@ -14,6 +14,7 @@ public class JacksonConfig {
     public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         // Configura o ObjectMapper para reconhecer as subtipos de Pagamento.
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder() {
+            @Override
             public void configure(ObjectMapper objectMapper) {
                objectMapper.registerSubtypes(PagamentoComCartao.class);
                objectMapper.registerSubtypes(PagamentoComBoleto.class);

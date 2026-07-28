@@ -1,21 +1,24 @@
 package com.mjgomes.cursomc.services.validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mjgomes.cursomc.domain.Cliente;
 import com.mjgomes.cursomc.dto.ClienteNewDTO;
 import com.mjgomes.cursomc.enums.TipoCliente;
 import com.mjgomes.cursomc.repositories.ClienteRepository;
 import com.mjgomes.cursomc.resources.exception.FieldMessage;
 import com.mjgomes.cursomc.services.validation.utils.BR;
-import jakarta.validation.ConstraintValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.validation.ConstraintValidator;
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
 
-    @Autowired
-    private ClienteRepository repo;
+    private final ClienteRepository repo;
+
+    ClienteInsertValidator(ClienteRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public void initialize(ClienteInsert ann) {

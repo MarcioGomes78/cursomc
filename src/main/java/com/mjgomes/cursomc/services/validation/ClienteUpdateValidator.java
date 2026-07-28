@@ -1,26 +1,31 @@
 package com.mjgomes.cursomc.services.validation;
 
-import com.mjgomes.cursomc.domain.Cliente;
-import com.mjgomes.cursomc.dto.ClienteDTO;
-import com.mjgomes.cursomc.repositories.ClienteRepository;
-import com.mjgomes.cursomc.resources.exception.FieldMessage;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.HandlerMapping;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
+
+import com.mjgomes.cursomc.domain.Cliente;
+import com.mjgomes.cursomc.dto.ClienteDTO;
+import com.mjgomes.cursomc.repositories.ClienteRepository;
+import com.mjgomes.cursomc.resources.exception.FieldMessage;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintValidator;
+
 public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDTO> {
 
-    @Autowired
     // Obtem o parametro da URI.
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
     @Autowired
     private ClienteRepository repo;
+
+    ClienteUpdateValidator(HttpServletRequest request) {
+        this.request = request;
+    }
 
     @Override
     public void initialize(ClienteUpdate ann) {

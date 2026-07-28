@@ -1,14 +1,15 @@
 package com.mjgomes.cursomc.config;
 
-import com.mjgomes.cursomc.services.DBService;
-import com.mjgomes.cursomc.services.EmailService;
-import com.mjgomes.cursomc.services.MockEmailService;
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.text.ParseException;
+import com.mjgomes.cursomc.services.DBService;
+import com.mjgomes.cursomc.services.EmailService;
+import com.mjgomes.cursomc.services.MockEmailService;
 
 @Configuration
 @Profile("test")
