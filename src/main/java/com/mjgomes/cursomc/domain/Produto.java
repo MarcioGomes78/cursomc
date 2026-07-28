@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
+// Produto vendido pela loja; pertence a N categorias e aparece como item em N pedidos.
 @Entity
 public class Produto implements Serializable {
     @Serial

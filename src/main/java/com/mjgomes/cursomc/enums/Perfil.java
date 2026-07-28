@@ -1,5 +1,6 @@
 package com.mjgomes.cursomc.enums;
 
+// Perfil de acesso de um Cliente autenticado; "descricao" segue a convenção ROLE_* exigida pelo Spring Security.
 public enum Perfil {
 
     ADMIN(1, "ROLE_ADMIN"),
@@ -21,6 +22,7 @@ public enum Perfil {
         return descricao;
     }
 
+    // Converte o código persistido de volta para o enum; lança exceção se vier um código desconhecido.
     public static Perfil toEnum(Integer cod) {
         if (cod == null) {
             return null;

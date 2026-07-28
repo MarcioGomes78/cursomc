@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+// Popula o banco com um conjunto de dados de exemplo (categorias, produtos, clientes, pedidos etc.);
+// chamado por DevConfig/TestConfig no startup da aplicação, nunca em produção.
 @Service
 public class DBService {
 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+// Cidade pertencente a um Estado; usada nos endereços dos clientes.
 @Entity
 public final class Cidade implements Serializable {
     private static final long serialVersionUID = 1L;

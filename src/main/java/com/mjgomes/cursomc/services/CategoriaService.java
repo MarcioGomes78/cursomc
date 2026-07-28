@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Regras de negócio de Categoria: CRUD sobre CategoriaRepository e conversão DTO <-> entidade.
 @Service
 public class CategoriaService {
 
@@ -42,6 +43,8 @@ public class CategoriaService {
         return repo.save(newObj);
     }
 
+    // find(id) garante 404 (ObjectNotFoundException) se o id não existir, antes de tentar excluir.
+    // A FK de produto_categoria vira DataIntegrityViolationException, traduzida para uma mensagem amigável.
     public void delete(Integer id) {
         find(id);
         try {
@@ -63,6 +66,7 @@ public class CategoriaService {
         return repo.findAll(pageRequest);
     }
 
+    // Constrói a entidade a partir do DTO recebido na API (sem tocar nas associações de Produto).
     public Categoria fromDTO(@Valid CategoriaDTO objDto) {
         return new Categoria(objDto.getId(), objDto.getName());
     }

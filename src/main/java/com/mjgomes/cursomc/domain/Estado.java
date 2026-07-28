@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+// Estado (UF) brasileiro; agrupa as cidades cadastradas nele.
 @Entity
 public class Estado implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -34,20 +34,19 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
     @Override
     public boolean isValid(ClienteDTO objDto, jakarta.validation.ConstraintValidatorContext context) {
 
-        // Pega o id da URI
+        // O DTO não traz o id do cliente sendo atualizado, então ele é lido do path variable {id} da própria
+        // requisição (injetado pelo Spring como atributo do request) para permitir comparar com aux.getId().
         Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         Integer uriId = Integer.parseInt(map.get("id"));
 
-        // Implement validation logic here
         List<FieldMessage> list = new ArrayList<>();
 
+        // Só é erro se o email já pertencer a OUTRO cliente; o próprio cliente pode manter seu email atual.
         Cliente aux = repo.findByEmail(objDto.getEmail());
         if (aux != null && !aux.getId().equals(uriId)) {
-            // O email já existe na base de dados
             list.add(new FieldMessage("email", "Email já existente"));
         }
 
-        // inclua os testes aqui, inserindo erros na lista
         for (FieldMessage e : list) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(e.getMessage())

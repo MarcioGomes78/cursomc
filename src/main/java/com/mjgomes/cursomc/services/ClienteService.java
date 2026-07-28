@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Regras de negócio de Cliente: CRUD, conversão DTO <-> entidade e criptografia de senha no cadastro.
 @Service
 public class ClienteService {
 
@@ -40,6 +41,8 @@ public class ClienteService {
                 "Object Not Found! Id: " + id + ", Type: " + Cliente.class.getName()));
     }
 
+    // Salva o cliente primeiro para gerar o id (necessário como FK em Endereco), depois salva os
+    // endereços associados; o segundo repo.save(obj) apenas devolve o cliente já com essas associações.
     public Cliente insert(Cliente obj) {
         obj.setId(null);
         obj = repo.save(obj);
@@ -54,6 +57,8 @@ public class ClienteService {
         return repo.save(newObj);
     }
 
+    // find(id) garante 404 se o id não existir; a FK de Pedido vira DataIntegrityViolationException,
+    // traduzida para uma mensagem amigável (não dá pra apagar cliente com pedidos).
     public void delete(Integer id) {
         find(id);
         try {
@@ -75,6 +80,7 @@ public class ClienteService {
         return repo.findAll(pageRequest);
     }
 
+    // Usado na atualização (PUT): não altera cpfOuCnpj/tipo/senha, só nome/email (ver updateData).
     public Cliente fromDTO(ClienteDTO objDto) {
         return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
     }

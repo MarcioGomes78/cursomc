@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+// Endpoints de Pedido; ambos exigem usuário autenticado, pois não estão em PUBLIC_MATCHERS/PUBLIC_MATCHERS_GET/POST.
 @RestController
 @RequestMapping(value = "/pedidos")
 public class PedidoResource {
@@ -23,6 +24,7 @@ public class PedidoResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    // Retorna 201 com o header Location apontando para a URI do pedido recém-criado.
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) {
         obj = service.insert(obj);

@@ -1,5 +1,6 @@
 package com.mjgomes.cursomc.enums;
 
+// Situação de um Pagamento; persistido como o "cod" (Integer), nunca o nome do enum.
 public enum EstadoPagamento {
 
     PENDENTE(1, "Pendente"),
@@ -21,6 +22,7 @@ public enum EstadoPagamento {
         return descricao;
     }
 
+    // Converte o código persistido de volta para o enum; lança exceção se vier um código desconhecido.
     public static EstadoPagamento toEnum(Integer cod) {
         if (cod == null) {
             return null;

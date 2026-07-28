@@ -4,6 +4,7 @@ import com.mjgomes.cursomc.domain.Produto;
 
 import java.io.Serializable;
 
+// Versão exposta na API de Produto, sem as associações de Categoria/ItemPedido.
 public class ProdutoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

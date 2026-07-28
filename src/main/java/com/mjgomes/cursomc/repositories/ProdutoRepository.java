@@ -16,10 +16,11 @@ import java.util.List;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
+    // Busca paginada por nome (contém, case-sensitive) e categorias; DISTINCT evita duplicar produtos
+    // que casem com mais de uma categoria da lista. Poderia virar um derived query method
+    // (findDistinctByNameContainingAndCategoriasIn), mas exigiria renomear a chamada em ProdutoService.
     @Transactional(readOnly = true)
     @Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.name LIKE %:nome% AND cat IN :categorias")
-        // ou Page<Produto> findDistinctByNameContainingAndCategoriasIn(String nome, List<Categoria> categorias, Pageable pageRequest);
-    // mudar o nome do metodo "search" no ProdutoService para "findDistinctByNameContainingAndCategoriasIn"
     Page<Produto> search(@Param("nome") String nome, @Param("categorias") List<Categoria> categorias, Pageable pageRequest);
 
 }

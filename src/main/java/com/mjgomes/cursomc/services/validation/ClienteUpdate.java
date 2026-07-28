@@ -8,6 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+// Bean Validation customizada aplicada a ClienteDTO: delega a checagem de email duplicado
+// (ignorando o próprio cliente sendo atualizado) para ClienteUpdateValidator.
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ClienteUpdateValidator.class)

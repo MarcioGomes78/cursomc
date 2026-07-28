@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import java.util.Date;
 
 
+// Pagamento via boleto bancário: guarda a data de vencimento e, quando quitado, a data de pagamento.
 @Entity
 @JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {

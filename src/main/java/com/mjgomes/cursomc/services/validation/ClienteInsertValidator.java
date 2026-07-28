@@ -26,8 +26,8 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 
     @Override
     public boolean isValid(ClienteNewDTO objDto, jakarta.validation.ConstraintValidatorContext context) {
-        // Implement validation logic here
         List<FieldMessage> list = new ArrayList<>();
+        // O algoritmo de validação (dígito verificador) depende do tipo de cliente escolhido.
         if (objDto.getTipo().equals(TipoCliente.PESSOAFISICAS.getCod()) && !BR.isValidCPF(objDto.getCpfOuCnpj())) {
             list.add(new FieldMessage("cpfOuCnpj", "CPF inválido"));
         }
@@ -40,7 +40,8 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
             list.add(new FieldMessage("email", "Email já existente"));
         }
 
-        // inclua os testes aqui, inserindo erros na lista
+        // Cada FieldMessage vira uma violação de constraint associada ao campo correspondente,
+        // para que o erro apareça no JSON de resposta (ver ResourceExceptionHandler) já ligado ao campo certo.
         for (FieldMessage e : list) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(e.getMessage())

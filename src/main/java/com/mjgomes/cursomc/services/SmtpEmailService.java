@@ -9,6 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+// Implementação usada em produção: envia o e-mail de fato via SMTP (config em application-prod.properties).
 @Service
 public class SmtpEmailService extends AbstractEmailService{
 

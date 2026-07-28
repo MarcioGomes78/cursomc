@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+// Ponte entre o Spring Security e o domínio: carrega o Cliente pelo email (usado como "username" no login)
+// e o expõe como UserSS, que é o que o AuthenticationManager de fato compara/autoriza.
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+// Sem isso, o ObjectMapper não saberia serializar/desserializar corretamente os subtipos concretos
+// de Pagamento (a hierarquia @JsonTypeInfo/@JsonTypeName sozinha não basta para o Spring Boot autoconfigurado).
 @Configuration
 public class JacksonConfig {
 

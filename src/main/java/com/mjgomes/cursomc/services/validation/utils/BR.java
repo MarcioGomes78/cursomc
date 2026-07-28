@@ -1,7 +1,9 @@
 package com.mjgomes.cursomc.services.validation.utils;
 
+// Validação de dígitos verificadores de CPF/CNPJ (algoritmo módulo 11), usada por ClienteInsertValidator.
 public class BR {
 
+    // Rejeita tamanho errado e sequências repetidas (ex: "11111111111"), que passariam no cálculo mas são inválidas.
     public static boolean isValidCPF(String cpf) {
         cpf = cpf.replaceAll("\\D", "");
         if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) return false;
@@ -17,6 +19,7 @@ public class BR {
         return d1 == cpf.charAt(9) - '0' && d2 == cpf.charAt(10) - '0';
     }
 
+    // Mesma ideia do CPF, mas com os pesos fixos w1/w2 definidos pelo algoritmo oficial do CNPJ.
     public static boolean isValidCNPJ(String cnpj) {
         cnpj = cnpj.replaceAll("\\D", "");
         if (cnpj.length() != 14 || cnpj.matches("(\\d)\\1{13}")) return false;

@@ -1,5 +1,6 @@
 package com.mjgomes.cursomc.enums;
 
+// Tipo de Cliente (pessoa física/jurídica); persistido como "cod" (Integer) na entidade Cliente.
 public enum TipoCliente {
 
     PESSOAFISICAS(1, "Pessoa Física"),
@@ -20,6 +21,7 @@ public enum TipoCliente {
         return descricao;
     }
 
+    // Converte o código persistido de volta para o enum; lança exceção se vier um código desconhecido.
     public static TipoCliente toEnum(Integer cod) {
         if (cod == null) {
             return null;

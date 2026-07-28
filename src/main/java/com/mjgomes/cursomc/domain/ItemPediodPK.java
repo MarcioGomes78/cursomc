@@ -8,7 +8,7 @@ import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
-// Subtype of primary key class for ItemPedido entity
+// Chave composta (pedido + produto) de ItemPedido: cada par só pode aparecer uma vez no mesmo pedido.
 @Embeddable
 public class ItemPediodPK implements Serializable {
     private static final long serialVersionUID = 1L;

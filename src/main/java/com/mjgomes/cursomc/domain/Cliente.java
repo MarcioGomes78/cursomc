@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// Cliente da loja; também serve como usuário autenticável (email/senha + perfis de acesso).
 @Entity
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -91,6 +92,7 @@ public class Cliente implements Serializable {
         this.cpfOuCnpj = cpfOuCnpj;
     }
 
+    // "tipo" é persistido como Integer (tipo.getCod()); o getter/setter converte de/para o enum TipoCliente.
     public TipoCliente getTipo() {
         return TipoCliente.toEnum(tipo);
     }
@@ -107,6 +109,7 @@ public class Cliente implements Serializable {
         this.senha = senha;
     }
 
+    // "perfis" é persistido como Set<Integer> (código de cada Perfil); aqui é convertido de volta para o enum.
     public Set<Perfil> getPerfis() {
         return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }

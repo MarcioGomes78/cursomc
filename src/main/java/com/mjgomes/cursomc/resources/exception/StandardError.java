@@ -2,6 +2,7 @@ package com.mjgomes.cursomc.resources.exception;
 
 import java.io.Serializable;
 
+// Formato padrão de erro devolvido pela API (status HTTP, mensagem e timestamp), montado em ResourceExceptionHandler.
 public class StandardError implements Serializable {
     private static final long serialVersionUID = 1L;
 

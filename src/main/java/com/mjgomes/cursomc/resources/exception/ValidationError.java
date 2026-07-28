@@ -3,6 +3,8 @@ package com.mjgomes.cursomc.resources.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+// StandardError especializado para erros de validação de Bean Validation (@Valid): acrescenta a lista
+// de campos que falharam, um FieldMessage por campo inválido.
 public class ValidationError extends StandardError {
     private static final long serialVersionUID = 1L;
 

@@ -14,8 +14,9 @@ import org.thymeleaf.context.Context;
 
 import java.util.Date;
 
+// Template Method: monta as mensagens (texto simples e HTML via Thymeleaf) a partir de um Pedido;
+// o envio de fato (sendEmail/sendHtmlEmail) fica a cargo das subclasses (Mock em dev/test, Smtp em produção).
 @Component
-// Pattern: Template Method
 public abstract class AbstractEmailService implements EmailService{
 
     @Value("${default.sender}")
@@ -51,6 +52,7 @@ public abstract class AbstractEmailService implements EmailService{
         return templateEngine.process("email/confirmacaoPedido", context);
     }
 
+    // Se montar/enviar o HTML falhar, cai para o e-mail de texto simples em vez de deixar o pedido sem notificação.
     @Override
     public void sendOrderConfirmationHtmlEmail(Pedido obj) {
         try{

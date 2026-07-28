@@ -22,6 +22,7 @@ import com.mjgomes.cursomc.services.CategoriaService;
 
 import jakarta.validation.Valid;
 
+// GET é público (PUBLIC_MATCHERS_GET); POST/PUT/DELETE exigem o perfil ADMIN.
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {

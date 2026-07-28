@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+// Forma de pagamento de um Pedido (boleto ou cartão); cada subtipo vira uma tabela própria (JOINED)
+// e o JSON inclui a propriedade "@type" para o cliente distinguir qual subtipo recebeu.
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")

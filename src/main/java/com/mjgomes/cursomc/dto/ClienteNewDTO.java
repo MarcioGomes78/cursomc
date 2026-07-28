@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
+// Formulário de cadastro de um novo Cliente: reúne dados do cliente, senha e endereço/telefones num único payload.
+// @ClienteInsert valida regras específicas de criação (ex: CPF/CNPJ conforme o tipo escolhido).
 @ClienteInsert
 public class ClienteNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -21,6 +23,7 @@ public class ClienteNewDTO implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     private String cpfOuCnpj;
 
+    // Código de TipoCliente (pessoa física/jurídica); mantido como Integer aqui pois é só um formulário de entrada.
     private Integer tipo;
 
     @NotEmpty(message = "Preenchimento obrigatório")
@@ -39,6 +42,7 @@ public class ClienteNewDTO implements Serializable {
     private String telefone2;
     private String telefone3;
 
+    // Id da Cidade escolhida para o endereço; resolvido para a entidade Cidade no service ao converter para Endereco.
     private Integer cidadeId;
 
     public ClienteNewDTO() {

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+// Dados públicos de um Cliente (sem senha/perfis); @ClienteUpdate valida os campos ao atualizar um cliente existente.
 @ClienteUpdate
 public class ClienteDTO implements Serializable {
     private static final long serialVersionUID = 1L;

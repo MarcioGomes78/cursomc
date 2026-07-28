@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Regras de negócio de Produto: busca por id e busca paginada por nome/categorias.
 @Service
 public class ProdutoService {
 
@@ -27,6 +28,8 @@ public class ProdutoService {
                 "Object Not Found! Id: " + id + ", Type: " + Produto.class.getName()));
     }
 
+    // Nota: "ids" (os ids de categoria vindos da URL) não é usado hoje — a busca sempre considera
+    // TODAS as categorias cadastradas, em vez de filtrar pelas categorias informadas.
     public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
         // PageRequest é uma classe do Spring Data que implementa a interface Pageable,
         // e que prepara e ar mazena as informações de paginação para serem enviadas ao repositório.

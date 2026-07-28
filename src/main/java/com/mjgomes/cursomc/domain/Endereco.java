@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+// Endereço de um Cliente, vinculado a uma Cidade; usado também como endereço de entrega do Pedido.
 @Entity
 public class Endereco implements Serializable {
     private static final long serialVersionUID = 1L;

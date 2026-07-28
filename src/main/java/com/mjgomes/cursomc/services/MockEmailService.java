@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 
+// Implementação usada em dev/test: não envia e-mail de verdade, apenas loga o conteúdo que seria enviado.
 public class MockEmailService extends AbstractEmailService {
 
     private static final Logger LOG = LoggerFactory.getLogger(MockEmailService.class);

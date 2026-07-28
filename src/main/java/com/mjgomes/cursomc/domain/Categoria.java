@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+// Categoria de produtos (ex: "Informática", "Escritório"); relação N:N com Produto.
 @Entity
 public class Categoria implements Serializable {
     private static final long serialVersionUID = 1L;

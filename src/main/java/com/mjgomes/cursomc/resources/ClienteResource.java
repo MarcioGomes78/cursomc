@@ -23,6 +23,8 @@ import com.mjgomes.cursomc.services.ClienteService;
 
 import jakarta.validation.Valid;
 
+// POST é público (PUBLIC_MATCHERS_POST) para permitir o autocadastro; GET/PUT exigem usuário autenticado
+// e findAll/findPage/delete exigem o perfil ADMIN.
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClienteResource {
@@ -36,6 +38,7 @@ public class ClienteResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    // Cadastro de um novo cliente (autoatendimento); não exige autenticação prévia.
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
         Cliente obj = service.fromDTO(objDto);

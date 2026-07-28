@@ -33,6 +33,7 @@ public class ItemPedido  implements Serializable {
         this.quantidade = quantidade;
     }
 
+    // Preço/desconto são congelados no momento da compra, então não refletem alterações futuras no Produto.
     public double getSubTotal() {
         return (preco - desconto) * quantidade;
     }

@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// Pedido de compra feito por um Cliente: reúne itens, endereço de entrega e o pagamento associado.
 @Entity
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;

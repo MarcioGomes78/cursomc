@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Endpoints públicos (leitura) de Produto: consulta por id e busca paginada por nome/categorias.
 @RestController
 @RequestMapping(value = "/produtos")
 public class ProdutoResource {
@@ -24,6 +25,8 @@ public class ProdutoResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    // "nome" e "categorias" chegam como query params codificados (espaços/acentos, ids separados por vírgula);
+    // URL.decodeParam/decodeIntList desfazem essa codificação antes de repassar ao service.
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Page<ProdutoDTO>> findPage(
             @RequestParam(value = "nome", defaultValue = "") String nome,

@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// CRUD padrão para Pedido; nenhuma consulta customizada é necessária ainda.
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {}

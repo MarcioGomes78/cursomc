@@ -10,9 +10,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// Traduz as exceções internas dos services em respostas HTTP com corpo padronizado (StandardError/ValidationError),
+// centralizando esse mapeamento em vez de repeti-lo em cada Resource.
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
+    // Entidade não encontrada (ex: find por id inexistente) -> 404.
     @ExceptionHandler
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 
@@ -20,6 +23,7 @@ public class ResourceExceptionHandler {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
+    // Violação de integridade (ex: excluir um registro referenciado por outro) -> 400.
     @ExceptionHandler(DataIntegrityException.class)
     public ResponseEntity<StandardError> objectNotFound(DataIntegrityException e, HttpServletRequest request) {
 
@@ -27,6 +31,7 @@ public class ResourceExceptionHandler {
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
+    // Falha de Bean Validation (@Valid) num @RequestBody -> 400 com a lista de campos inválidos.
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 

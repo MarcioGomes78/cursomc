@@ -5,8 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+// Helpers para decodificar query params de busca (nome de produto, lista de ids de categoria).
 public class URL {
 
+    // Decodifica um parâmetro URL-encoded (ex: espaços/acentos); qualquer falha vira string vazia
+    // para não quebrar a busca por causa de um parâmetro malformado.
     public static String decodeParam(String s) {
         try
         {
@@ -18,9 +21,8 @@ public class URL {
         }
             }
 
+    // Converte "1,2,3" em [1, 2, 3]; usado para a lista de ids de categoria vinda da URL.
     public static List<Integer> decodeIntList(String s) {
-        // Split the string by commas, convert each part to an Integer, and collect into a List
-        //List.of(s.split(",")).stream().map(x -> Integer.parseInt(x)).toList();
         String[] split = s.split(",");
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < split.length; i++) {
