@@ -1,8 +1,7 @@
 package com.mjgomes.cursomc.services;
 
-import com.mjgomes.cursomc.domain.Pedido;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,7 +11,11 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.util.Date;
+import com.mjgomes.cursomc.domain.Cliente;
+import com.mjgomes.cursomc.domain.Pedido;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 // Template Method: monta as mensagens (texto simples e HTML via Thymeleaf) a partir de um Pedido;
 // o envio de fato (sendEmail/sendHtmlEmail) fica a cargo das subclasses (Mock em dev/test, Smtp em produção).
@@ -46,6 +49,22 @@ public abstract class AbstractEmailService implements EmailService{
         return sm;
     }
 
+    @Override
+    public void sendNewPasswordEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = prepareNewPasswordEmail(cliente, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(cliente.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("Solicitação de Nova senha");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Nova senha: " + newPass);
+        return sm;
+    }
+    
     protected String htmlFromTemplatePedido(Pedido obj){
         Context context = new Context();
         context.setVariable("pedido", obj);
