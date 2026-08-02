@@ -11,7 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import static org.springframework.security.config.Customizer.withDefaults;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,7 +30,7 @@ import com.mjgomes.cursomc.security.JWTUtil;
 // regras de acesso por endpoint, CORS e registro dos filtros JWTAuthenticationFilter/JWTAuthorizationFilter.
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
 
     @Autowired
@@ -71,8 +71,7 @@ public class SecurityConfig{
             http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
         }
         // Autenticação via banco (UserDetailsService) comparando a senha com BCrypt.
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(bCryptPasswordEncoder());
         AuthenticationManager authenticationManager = new ProviderManager(authProvider);
 

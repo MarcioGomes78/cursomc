@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Spring Boot 3.5 (Java 25) REST API for an e-commerce backend ("cursomc" — from a Udemy Spring Boot course). Package root: `com.mjgomes.cursomc`.
+Spring Boot 4.1 (Java 25) REST API for an e-commerce backend ("cursomc" — from a Udemy Spring Boot course). Package root: `com.mjgomes.cursomc`. Migrated from Spring Boot 3.5.16 after that line reached OSS end-of-support (~2026-06-30); see "Spring Boot 4 migration notes" below.
 
 ## Commands
 
@@ -53,7 +53,14 @@ Classic layered Spring MVC structure, one package per layer rather than per feat
   - `JWTAuthorizationFilter` runs per-request, validates the `Authorization: Bearer` header, and populates `SecurityContextHolder`.
   - `UserSS` is the `UserDetails` principal exposing the client id and roles; `UserDetailsServiceImpl` loads it from `Cliente`.
   - `config/SecurityConfig` wires the filters, defines public endpoints (`PUBLIC_MATCHERS`, `PUBLIC_MATCHERS_GET` for read-only product/category browsing, `PUBLIC_MATCHERS_POST` for client registration and forgot-password), disables CSRF (stateless JWT API), and enables permissive CORS.
+  - `resources/AuthResource` + `services/AuthService` handle the two non-login `/auth` endpoints: `POST /auth/refresh_token` (re-issues a token for the currently authenticated user) and `POST /auth/forgot` (generates a new random password, saves it BCrypt-encoded, and emails it via `EmailService`). Login itself (`POST` to the security filter chain, not a resource method) is handled by `JWTAuthenticationFilter` reading a `CredenciaisDTO` (email/senha).
 - `config/` — `SecurityConfig`, `JacksonConfig` (JSON mapping config), plus the profile-scoped `DevConfig`/`TestConfig` described above.
 - `enums/` — `Perfil` (role: CLIENTE/ADMIN), `TipoCliente` (individual/company), `EstadoPagamento` (payment status), each with an int code + `toEnum(code)` lookup used when deserializing DTOs.
 
 Auth/authorization is enforced in two places that both matter: `SecurityConfig` decides which endpoints require *any* authenticated user, and individual services additionally check *which* authenticated user is allowed (self vs ADMIN) — don't assume a passing `SecurityConfig` matcher is the full authorization story.
+
+## Spring Boot 4 migration notes
+
+- `config/SecurityConfig` uses `@EnableMethodSecurity` (Spring Security 7 renamed this from the legacy `@EnableGlobalMethodSecurity`); `DaoAuthenticationProvider` now takes `UserDetailsService` via constructor instead of a `setUserDetailsService` setter.
+- Jackson 2 → 3 is NOT fully migrated: `spring.jackson.use-jackson2-defaults=true` (`application.properties`) plus the `spring-boot-jackson2` dependency (`pom.xml`) keep the existing Jackson 2 annotations (`@JsonIgnore`/`@JsonFormat`/`@JsonTypeInfo`/`@JsonTypeName` across `domain/`) and `config/JacksonConfig`'s `Jackson2ObjectMapperBuilder` subclass working unchanged. This bridge module is deprecated upstream and will eventually be removed — a follow-up task is to migrate `JacksonConfig` and the domain annotations to native Jackson 3 (`tools.jackson.*`) and drop the compat flag/dependency.
+- `spring-boot-starter-web` was renamed to `spring-boot-starter-webmvc` in Boot 4.
