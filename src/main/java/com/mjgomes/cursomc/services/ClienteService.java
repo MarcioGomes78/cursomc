@@ -2,6 +2,8 @@ package com.mjgomes.cursomc.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.net.URI;
+import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -38,6 +40,9 @@ public class ClienteService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    @Autowired
+    private S3Service s3Service;
+    
     public Cliente find(Integer id) {
 
         // Só pode ver o próprio cadastro ou, se for ADMIN, o de qualquer cliente; caso contrário, 403.
@@ -115,4 +120,9 @@ public class ClienteService {
         newObj.setNome(objDto.getNome());
         newObj.setEmail(objDto.getEmail());
     }
+
+    public URI uploadProfilePicture(MultipartFile multipartFile){
+        return s3Service.uploadFile(multipartFile);   
+    }
 }
+

@@ -56,6 +56,7 @@ public class SecurityConfig{
     // Endpoints liberados apenas para escrita (POST), como o cadastro de clientes.
     private static final String[] PUBLIC_MATCHERS_POST = {
             "/clientes",
+            "/clientes/picture",
             "/auth/forgot"
     };
 
