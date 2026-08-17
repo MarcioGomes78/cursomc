@@ -15,13 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.mjgomes.cursomc.services.exceptions.FileException;
 
 @Service
 public class S3Service {
 
     // Logger para registrar eventos e erros
-    private Logger LOG = LoggerFactory.getLogger(S3Service.class);
-    
+    private static final Logger LOG = LoggerFactory.getLogger(S3Service.class);
+
     @Autowired
     private AmazonS3 s3Client;
 
@@ -39,7 +40,7 @@ public class S3Service {
 
             return upLoadFile(inputStream, fileName, contentType);
         } catch (IOException e) {
-            throw new RuntimeException("Erro de IO: " + e.getMessage());
+            throw new FileException("Erro de IO: " + e.getMessage());
         }
     }
 
@@ -57,9 +58,9 @@ public class S3Service {
             LOG.info("Upload finalizado");
             return s3Client.getUrl(bucketName, fileName).toURI();
         } catch (AmazonServiceException e) {
-            throw new RuntimeException("Erro ao fazer upload para o S3: " + e.getMessage());
+            throw new FileException("Erro ao fazer upload para o S3: " + e.getMessage());
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Erro ao converter URL para URI: " + e.getMessage());
+            throw new FileException("Erro ao converter URL para URI: " + e.getMessage());
         }
     }
 }
