@@ -39,6 +39,13 @@ public class ClienteResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    // Cliente pode ver só o próprio perfil e os detalhes dele, e os ADMIN podem ver qualquer cliente.
+    @RequestMapping(value = "/email", method = RequestMethod.GET)
+    public ResponseEntity<Cliente> find(@RequestParam(value = "value") String email){
+        Cliente obj = service.findByEmail(email);
+        return ResponseEntity.ok().body(obj);
+    }
+
     // Cadastro de um novo cliente (autoatendimento); não exige autenticação prévia.
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {

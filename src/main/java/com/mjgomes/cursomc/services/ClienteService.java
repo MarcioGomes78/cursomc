@@ -99,6 +99,23 @@ public class ClienteService {
         return repo.findAll();
     }
 
+    public Cliente findByEmail(String email) {
+        // Só pode ver o próprio cadastro ou, se for ADMIN, o de qualquer cliente; caso contrário, 403.
+        UserSS user = UserService.authenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+            throw new AuthorizationException("Acesso negado");
+        }
+        
+        Cliente obj = repo.findByEmail(email);
+        if (obj == null) {
+            throw new ObjectNotFoundException(
+                    "Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Cliente.class.getName());
+        }
+        return obj;
+    }
+
+
+
     public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         // PageRequest é uma classe do Spring Data que implementa a interface Pageable,
         // e que prepara e ar mazena as informações de paginação para serem enviadas ao repositório.
