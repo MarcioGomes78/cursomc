@@ -107,11 +107,11 @@ public class DBService {
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
         // Criando o cliente e os endereços
-        Cliente cli1 = new Cliente(null, "Maria Silva", "mjgomes1978@gmail.com", "36378912377", TipoCliente.PESSOAFISICAS, pe.encode("123"));
+        Cliente cli1 = new Cliente(null, "Maria Silva", "monetizgomes@gmail.com", "36378912377", TipoCliente.PESSOAFISICAS, pe.encode("123"));
         cli1.getTelefones().addAll(Arrays.asList("41982736332", "91983839375"));
 
         // Adicionando perfil de admin ao cliente
-        Cliente cli2 = new Cliente(null, "Ana Costa", "mjgomes1978@proton.me", "96192441170", TipoCliente.PESSOAFISICAS, pe.encode("123"));
+        Cliente cli2 = new Cliente(null, "Ana Costa", "mjgomes1978@gmail.com", "96192441170", TipoCliente.PESSOAFISICAS, pe.encode("123"));
         cli1.getTelefones().addAll(Arrays.asList("41987654599", "91983839393"));
 
         cli2.addPerfil(Perfil.ADMIN);

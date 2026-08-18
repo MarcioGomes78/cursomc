@@ -1,13 +1,27 @@
 package com.mjgomes.cursomc.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mjgomes.cursomc.enums.Perfil;
 import com.mjgomes.cursomc.enums.TipoCliente;
-import jakarta.persistence.*;
 
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 // Cliente da loja; também serve como usuário autenticável (email/senha + perfis de acesso).
 @Entity
@@ -28,6 +42,8 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private String senha;
 
+    private String imageUrl;
+
     // Associações
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
@@ -41,9 +57,8 @@ public class Cliente implements Serializable {
     private Set<Integer> perfis = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy =  "cliente")
+    @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
-
 
     // Todo cliente tem perfil de cliente por padrão uns vão ser admin outros não.
     public Cliente() {
@@ -136,6 +151,14 @@ public class Cliente implements Serializable {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void addPerfil(Perfil perfil) {

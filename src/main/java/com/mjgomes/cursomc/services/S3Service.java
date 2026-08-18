@@ -38,7 +38,7 @@ public class S3Service {
             InputStream inputStream = multipartFile.getInputStream();
             String contentType = multipartFile.getContentType();
 
-            return upLoadFile(inputStream, fileName, contentType);
+            return uploadFile(inputStream, fileName, contentType);
         } catch (IOException e) {
             throw new FileException("Erro de IO: " + e.getMessage());
         }
@@ -49,7 +49,7 @@ public class S3Service {
     @param contentType - Tipo do arquivo
     @return URI - URL do arquivo enviado
     */
-    public URI upLoadFile(InputStream inputStream, String fileName, String contentType){
+    public URI uploadFile(InputStream inputStream, String fileName, String contentType){
         try {
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentType(contentType);

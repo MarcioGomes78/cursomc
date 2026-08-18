@@ -2,10 +2,13 @@ package com.mjgomes.cursomc.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.awt.image.BufferedImage;
 import java.net.URI;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +45,13 @@ public class ClienteService {
 
     @Autowired
     private S3Service s3Service;
-    
+
+    @Autowired
+    private ImageService imageService;
+
+    @Value("${img.prefix.client.profile}")
+    private String prefix;
+
     public Cliente find(Integer id) {
 
         // Só pode ver o próprio cadastro ou, se for ADMIN, o de qualquer cliente; caso contrário, 403.
@@ -107,6 +116,8 @@ public class ClienteService {
         Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);
         cli.getEnderecos().add(end);
         cli.getTelefones().add(objDto.getTelefone1());
+
+        // Se o telefone 2 ou 3 for preenchido, adicionar ao cliente
         if (objDto.getTelefone2() != null) {
             cli.getTelefones().add(objDto.getTelefone2());
         }
@@ -116,13 +127,25 @@ public class ClienteService {
         return cli;
     }
 
+    // Método auxiliar para atualizar os dados do cliente.
     private  void updateData(Cliente newObj, Cliente objDto) {
         newObj.setNome(objDto.getNome());
         newObj.setEmail(objDto.getEmail());
     }
 
+    // Método para fazer upload da foto de perfil do cliente.
     public URI uploadProfilePicture(MultipartFile multipartFile){
-        return s3Service.uploadFile(multipartFile);   
+
+        // Busca o cliente logado
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Acesso negado");
+        }
+
+        // Transforma a imagem para JPG
+        BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+        String fileName = prefix + user.getId() + ".jpg";
+
+        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 }
-

@@ -56,7 +56,6 @@ public class SecurityConfig{
     // Endpoints liberados apenas para escrita (POST), como o cadastro de clientes.
     private static final String[] PUBLIC_MATCHERS_POST = {
             "/clientes",
-            "/clientes/picture",
             "/auth/forgot"
     };
 
@@ -80,6 +79,7 @@ public class SecurityConfig{
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                 .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated()
         )
@@ -98,7 +98,6 @@ public class SecurityConfig{
 
     // Libera CORS para todas as origens/rotas com as configurações padrão do Spring.
     @Bean
-    @SuppressWarnings("unused")
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
@@ -106,7 +105,7 @@ public class SecurityConfig{
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
