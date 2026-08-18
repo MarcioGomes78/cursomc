@@ -1,11 +1,9 @@
 package com.mjgomes.cursomc.services;
 
-import java.util.List;
-import java.util.Optional;
 import java.awt.image.BufferedImage;
 import java.net.URI;
-
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mjgomes.cursomc.domain.Cidade;
 import com.mjgomes.cursomc.domain.Cliente;
@@ -51,6 +50,9 @@ public class ClienteService {
 
     @Value("${img.prefix.client.profile}")
     private String prefix;
+
+    @Value("${img.profile.size}")
+    private Integer size;
 
     public Cliente find(Integer id) {
 
@@ -144,8 +146,17 @@ public class ClienteService {
 
         // Transforma a imagem para JPG
         BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
-        String fileName = prefix + user.getId() + ".jpg";
 
+        // Cortar a imagem para que ela fique quadrada
+        jpgImage = imageService.cropSquare(jpgImage);
+
+        // Redimensionar a imagem para que ela tenha o tamanho especificado
+        jpgImage = imageService.resize(jpgImage, size);
+
+        // Nome do arquivo
+        String fileName = prefix + user.getId() + ".jpg";
+        
+        //faz o upload da imagem
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 }
