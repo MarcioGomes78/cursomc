@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "g": "^2.0.1",
+    "omniroute": "^3.8.49"
+  }
+}

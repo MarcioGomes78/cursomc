@@ -50,7 +50,8 @@ public class SecurityConfig{
     // Endpoints liberados apenas para leitura (GET); demais verbos exigem autenticação.
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**"
+            "/categorias/**",
+            "/estados/**"
     };
 
     // Endpoints liberados apenas para escrita (POST), como o cadastro de clientes.
